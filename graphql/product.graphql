@@ -1,0 +1,69 @@
+extend type Query{
+    products: [Product!]! @all
+
+    product(id:ID!, @eq): Product @find
+
+    productByFeature(feature: Boolean, @eq): [Product]  @all
+
+    someComplexQuery(search: String!): [Product]
+}
+
+extend type Mutation{
+    createProduct(
+        name: String! @rules(apply: ["required"]),
+        description: String!,
+        short_description: String!,
+        price: String! @rules(apply: ["required"]),
+        sale_price: String! @rules(apply: ["required"]),
+        feature: Boolean,
+        image: String @rules(apply: ["required"]),
+        category_id: ID!
+
+    ): Product @create 
+
+
+    upsertProduct(
+        id: ID! @rules(apply: ["required"]),
+        name: String @rules(apply: ["required"]),
+        description: String,
+        short_description: String,
+        price: String @rules(apply: ["required"]),
+        sale_price: String @rules(apply: ["required"]),
+        feature: Boolean,
+        image: String @rules(apply: ["required"]),
+        category_id: ID!
+
+    ): Product @upsert
+
+    updateProduct(
+        id: ID! @rules(apply: ["required"]),
+        name: String @rules(apply: ["required"]),
+        description: String,
+        short_description: String,
+        price: String @rules(apply: ["required"]),
+        sale_price: String @rules(apply: ["required"]),
+        feature: Boolean,
+        image: String @rules(apply: ["required"]),
+        category_id: ID!
+
+    ): Product @update
+
+
+    deleteProduct(
+        id:ID!, @eq
+        ): Product @delete
+}
+
+
+type Product{
+    id:ID!,
+    name: String!,
+    description: String!,
+    short_description: String!,
+    price: String!,
+    sale_price: String!,
+    feature: Boolean,
+    image: String!,
+    category: Category! @belongsTo
+
+}
