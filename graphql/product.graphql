@@ -8,8 +8,7 @@ extend type Query{
     someComplexQuery(search: String!): [Product]
 }
 
-extend type Mutation{
-    createProduct(
+input productDetail{
         name: String! @rules(apply: ["required"]),
         description: String!,
         short_description: String!,
@@ -18,33 +17,24 @@ extend type Mutation{
         feature: Boolean,
         image: String @rules(apply: ["required"]),
         category_id: ID!
+}
+
+extend type Mutation{
+    createProduct(
+        input: productDetail
 
     ): Product @create 
 
 
     upsertProduct(
         id: ID! @rules(apply: ["required"]),
-        name: String @rules(apply: ["required"]),
-        description: String,
-        short_description: String,
-        price: String @rules(apply: ["required"]),
-        sale_price: String @rules(apply: ["required"]),
-        feature: Boolean,
-        image: String @rules(apply: ["required"]),
-        category_id: ID!
+        input: productDetail
 
     ): Product @upsert
 
     updateProduct(
         id: ID! @rules(apply: ["required"]),
-        name: String @rules(apply: ["required"]),
-        description: String,
-        short_description: String,
-        price: String @rules(apply: ["required"]),
-        sale_price: String @rules(apply: ["required"]),
-        feature: Boolean,
-        image: String @rules(apply: ["required"]),
-        category_id: ID!
+        input: productDetail
 
     ): Product @update
 

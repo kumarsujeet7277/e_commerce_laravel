@@ -17,3 +17,4 @@ final class SomeComplexQuery
         return Product::where('name', 'like', '%'.$args['search'].'%')->get();
     }
 }
+
